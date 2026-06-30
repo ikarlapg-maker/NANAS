@@ -106,44 +106,47 @@ public class UsuarioPersistenceAdapter implements UsuarioRepositoryPort, NanaRep
 
     }
 
-    @Override
-    public Nana guardarNana(Nana nana) {
-        
-        UsuarioEntity usuarioEntity = new UsuarioEntity();
-        // Mapear los campos generales para nana de usuarioEntity
-        usuarioEntity.setNombre(nana.getNombre());
-        usuarioEntity.setApellido(nana.getApellido());
-        usuarioEntity.setCorreo(nana.getCorreo());
-        usuarioEntity.setTelefono(nana.getTelefono());
-        usuarioEntity.setDni(nana.getDni());
-        usuarioEntity.setPasswordHash(nana.getPasswordHash());
-        usuarioEntity.setFechaNacimiento(nana.getFechaNacimiento());
-        usuarioEntity.setTipoUsuario(nana.getTipoUsuario());
-        usuarioEntity.setEstadoCuenta(nana.getEstadoCuenta());
+@Override
+public Nana guardarNana(Nana nana) {
 
-        NanaEntity nanaEntity = new NanaEntity();
-        // Mapear los campos específicos de nana    
-        nanaEntity.setUsuario(usuarioEntity);
-        nanaEntity.setIdUniversidad(nana.getIdUniversidad());
-        nanaEntity.setCodigoUniversitario(nana.getCodigoUniversitario());
-        nanaEntity.setCarrera(nana.getCarrera());
-        nanaEntity.setCiclo(nana.getCiclo());
-        nanaEntity.setDescripcion(nana.getDescripcion());
-        nanaEntity.setExperiencia(nana.getExperiencia());
-        nanaEntity.setTarifaHora(nana.getTarifaHora());
-        nanaEntity.setDisponibilidad(nana.getDisponibilidad());
-        nanaEntity.setVerificado(nana.isVerificado());
-        nanaEntity.setRatingPromedio(nana.getRatingPromedio());
-        nanaEntity.setCantidadReviews(nana.getCantidadReviews());
-        // Guardar el nanaEntity en la base de datos
-        NanaEntity guardada = nanaRepository.save(nanaEntity);
-        nana.setIdNana(guardada.getIdNana());
-        nana.setIdUsuario(guardada.getUsuario().getIdUsuario());
-        nana.setFechaRegistro(guardada.getUsuario().getFechaRegistro());
-        nana.setFechaCreacion(guardada.getFechaCreacion());
-        
-        return nana;
-    }
+    UsuarioEntity usuarioEntity = new UsuarioEntity();
+
+    usuarioEntity.setNombre(nana.getNombre());
+    usuarioEntity.setApellido(nana.getApellido());
+    usuarioEntity.setCorreo(nana.getCorreo());
+    usuarioEntity.setTelefono(nana.getTelefono());
+    usuarioEntity.setDni(nana.getDni());
+    usuarioEntity.setPasswordHash(nana.getPasswordHash());
+    usuarioEntity.setFechaNacimiento(nana.getFechaNacimiento());
+    usuarioEntity.setTipoUsuario(nana.getTipoUsuario());
+    usuarioEntity.setEstadoCuenta(nana.getEstadoCuenta());
+
+    NanaEntity nanaEntity = new NanaEntity();
+
+    nanaEntity.setUsuario(usuarioEntity);
+    nanaEntity.setIdUniversidad(nana.getIdUniversidad());
+    nanaEntity.setCodigoUniversitario(nana.getCodigoUniversitario());
+    nanaEntity.setCarrera(nana.getCarrera());
+    nanaEntity.setCiclo(nana.getCiclo());
+    nanaEntity.setDescripcion(nana.getDescripcion());
+    nanaEntity.setExperiencia(nana.getExperiencia());
+    nanaEntity.setTarifaHora(nana.getTarifaHora());
+
+    // Campos que faltaban
+    nanaEntity.setDisponibilidad(nana.getDisponibilidad());
+    nanaEntity.setVerificado(nana.isVerificado());
+    nanaEntity.setRatingPromedio(nana.getRatingPromedio());
+    nanaEntity.setCantidadReviews(nana.getCantidadReviews());
+
+    NanaEntity guardada = nanaRepository.save(nanaEntity);
+
+    nana.setIdNana(guardada.getIdNana());
+    nana.setIdUsuario(guardada.getUsuario().getIdUsuario());
+    nana.setFechaRegistro(guardada.getUsuario().getFechaRegistro());
+    nana.setFechaCreacion(guardada.getFechaCreacion());
+
+    return nana;
+}
 
 @Override
 public List<Nana> obtenerTodas() {

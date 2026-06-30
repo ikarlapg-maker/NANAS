@@ -54,13 +54,8 @@ public class NanaServiceImpl implements NanaService {
     }
 
     @Override
-    public List<Nana> listarNanasDisponibles() {
-        List<Nana> todasLasNanas = nanaRepositoryPort.obtenerTodas();
-        
-        // solo disponibles
-        return todasLasNanas.stream()
-                .filter(nana -> "DISPONIBLE".equals(nana.getDisponibilidad()))
-                .collect(Collectors.toList());
-    }
+public List<Nana> listarNanasDisponibles() {
+    return nanaRepositoryPort.obtenerTodas();
+}
     
 }

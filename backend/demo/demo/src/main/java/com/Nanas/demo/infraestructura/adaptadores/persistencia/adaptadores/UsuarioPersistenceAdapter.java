@@ -142,42 +142,44 @@ public class UsuarioPersistenceAdapter implements UsuarioRepositoryPort, NanaRep
         return nana;
     }
 
-    @Override
-    public List<Nana> obtenerTodas() {
-        
-        //obtiene todas las nanas de la base de datos en formato de persistencia
-        List<NanaEntity> nanaEntities = nanaRepository.findAll();
-        //prepara el contenedor basio para transformar la entidades a objetos del dominio(objetos de negocio)
-        List<Nana> dominioNanas = new ArrayList<>();
-        for(NanaEntity entity : nanaEntities) {
-            Nana nana = new Nana();
-            nana.setIdNana(entity.getIdNana());
-            nana.setIdUsuario(entity.getUsuario().getIdUsuario());
-            nana.setNombre(entity.getUsuario().getNombre());
-            nana.setApellido(entity.getUsuario().getApellido());
-            nana.setCorreo(entity.getUsuario().getCorreo());
-            nana.setTelefono(entity.getUsuario().getTelefono());
-            nana.setTarifaHora(entity.getTarifaHora());
-            nana.setCarrera(entity.getCarrera());
-            nana.setCiclo(entity.getCiclo());
+@Override
+public List<Nana> obtenerTodas() {
+    
+    List<NanaEntity> nanaEntities = nanaRepository.findAll();
+    List<Nana> dominioNanas = new ArrayList<>();
 
-            //buscar coordenadas de la nana en la tabla direccion
-            // Busca la primera dirección del usuario vinculado a esta entidad.
-            Optional<DireccionEntity> dir = direccionRepository.findByIdUsuario(entity.getUsuario().getIdUsuario());
-            //si encuentra la direccion, asigna las coordenadas a la nana
-            if (dir.isPresent()) {
-                nana.setLatitud(dir.get().getLatitud());
-                nana.setLongitud(dir.get().getLongitud());
-            } else {
-                
-                nana.setLatitud(0.0);
-                nana.setLongitud(0.0);
-            }
-            dominioNanas.add(nana);
+    for (NanaEntity entity : nanaEntities) {
+        Nana nana = new Nana();
+
+        nana.setIdNana(entity.getIdNana());
+        nana.setIdUsuario(entity.getUsuario().getIdUsuario());
+        nana.setNombre(entity.getUsuario().getNombre());
+        nana.setApellido(entity.getUsuario().getApellido());
+        nana.setCorreo(entity.getUsuario().getCorreo());
+        nana.setTelefono(entity.getUsuario().getTelefono());
+
+        nana.setTarifaHora(entity.getTarifaHora());
+        nana.setCarrera(entity.getCarrera());
+        nana.setCiclo(entity.getCiclo());
+
+        // Para que aparezca en /api/nanas/disponibles
+        nana.setDisponibilidad("DISPONIBLE");
+
+        Optional<DireccionEntity> dir = direccionRepository.findByIdUsuario(entity.getUsuario().getIdUsuario());
+
+        if (dir.isPresent()) {
+            nana.setLatitud(dir.get().getLatitud());
+            nana.setLongitud(dir.get().getLongitud());
+        } else {
+            nana.setLatitud(0.0);
+            nana.setLongitud(0.0);
         }
 
-        return dominioNanas;
+        dominioNanas.add(nana);
     }
+
+    return dominioNanas;
+}
 
 
 

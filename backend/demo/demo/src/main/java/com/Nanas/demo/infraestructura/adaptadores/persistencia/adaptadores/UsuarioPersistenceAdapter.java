@@ -144,7 +144,7 @@ public class UsuarioPersistenceAdapter implements UsuarioRepositoryPort, NanaRep
 
 @Override
 public List<Nana> obtenerTodas() {
-    
+
     List<NanaEntity> nanaEntities = nanaRepository.findAll();
     List<Nana> dominioNanas = new ArrayList<>();
 
@@ -152,18 +152,32 @@ public List<Nana> obtenerTodas() {
         Nana nana = new Nana();
 
         nana.setIdNana(entity.getIdNana());
+        nana.setIdUniversidad(entity.getIdUniversidad());
+        nana.setCodigoUniversitario(entity.getCodigoUniversitario());
+        nana.setCarrera(entity.getCarrera());
+        nana.setCiclo(entity.getCiclo());
+        nana.setDescripcion(entity.getDescripcion());
+        nana.setExperiencia(entity.getExperiencia());
+        nana.setTarifaHora(entity.getTarifaHora());
+        nana.setDisponibilidad(entity.getDisponibilidad());
+        nana.setVerificado(entity.getVerificado());
+        nana.setRatingPromedio(entity.getRatingPromedio());
+        nana.setCantidadReviews(entity.getCantidadReviews());
+        nana.setFechaCreacion(entity.getFechaCreacion());
+
         nana.setIdUsuario(entity.getUsuario().getIdUsuario());
         nana.setNombre(entity.getUsuario().getNombre());
         nana.setApellido(entity.getUsuario().getApellido());
         nana.setCorreo(entity.getUsuario().getCorreo());
         nana.setTelefono(entity.getUsuario().getTelefono());
-
-        nana.setTarifaHora(entity.getTarifaHora());
-        nana.setCarrera(entity.getCarrera());
-        nana.setCiclo(entity.getCiclo());
-
-        // Para que aparezca en /api/nanas/disponibles
-        nana.setDisponibilidad("DISPONIBLE");
+        nana.setDni(entity.getUsuario().getDni());
+        nana.setPasswordHash(entity.getUsuario().getPasswordHash());
+        nana.setFechaNacimiento(entity.getUsuario().getFechaNacimiento());
+        nana.setFotoPerfil(entity.getUsuario().getFotoPerfil());
+        nana.setEstadoCuenta(entity.getUsuario().getEstadoCuenta());
+        nana.setTipoUsuario(entity.getUsuario().getTipoUsuario());
+        nana.setFechaRegistro(entity.getUsuario().getFechaRegistro());
+        nana.setUltimoLogin(entity.getUsuario().getUltimoLogin());
 
         Optional<DireccionEntity> dir = direccionRepository.findByIdUsuario(entity.getUsuario().getIdUsuario());
 
@@ -180,8 +194,6 @@ public List<Nana> obtenerTodas() {
 
     return dominioNanas;
 }
-
-
 
 @Override
 public Nana buscarNanaPorId(Integer idNana) {

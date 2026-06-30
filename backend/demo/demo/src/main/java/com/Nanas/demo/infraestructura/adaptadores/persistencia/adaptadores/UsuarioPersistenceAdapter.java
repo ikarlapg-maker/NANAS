@@ -131,7 +131,10 @@ public class UsuarioPersistenceAdapter implements UsuarioRepositoryPort, NanaRep
         nanaEntity.setDescripcion(nana.getDescripcion());
         nanaEntity.setExperiencia(nana.getExperiencia());
         nanaEntity.setTarifaHora(nana.getTarifaHora());
-
+        nanaEntity.setDisponibilidad(nana.getDisponibilidad());
+        nanaEntity.setVerificado(nana.isVerificado());
+        nanaEntity.setRatingPromedio(nana.getRatingPromedio());
+        nanaEntity.setCantidadReviews(nana.getCantidadReviews());
         // Guardar el nanaEntity en la base de datos
         NanaEntity guardada = nanaRepository.save(nanaEntity);
         nana.setIdNana(guardada.getIdNana());

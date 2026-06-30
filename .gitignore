@@ -1,0 +1,15 @@
+# Backend 
+**/target/
+**/.mvn/
+**/mvnw
+**/mvnw.cmd
+**/.idea/
+**/.settings/
+**/.project/
+**/.classpath
+
+# Frontend 
+**/node_modules/
+**/.angular/
+**/dist/
+**/.vscode/
